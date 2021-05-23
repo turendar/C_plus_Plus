@@ -1,0 +1,62 @@
+A man is wants to travel N coutries using 3 mode of transport i.e Plane, Ship, Helicopter cost of each of them is different for each coutry.
+You need to minimize the total cost for travelling.
+Condition : Person can't travel with same transport for two cities continuosly and travelling is done in input specified order.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+
+
+void solution(int N,int** C) {
+
+     int sum=0;
+     int a=C[0][0], b=C[0][1], c=C[0][2];
+     int visited = (a<b && a<c)?0:(b<a && b<c)?1:2;
+     cout<<visited<<endl;
+     sum += (a<b && a<c)?a:(b<a && b<c)?b:c;
+
+     for (int i=1;i<N; i++){
+         a=C[i][0], b=C[i][1], c=C[i][2];
+
+         if (visited==0){
+             visited = (b<c)?1:2;
+             cout<<visited<<endl;
+             sum += (b<c)?b:c;
+             continue;
+         }
+
+         if (visited==1){
+             visited = (a<c)?0:2;
+             cout<<visited<<endl;
+             sum += (a<c)?a:c;
+             continue;
+         }
+
+          if (visited==2){
+             visited = (a<b)?0:1;
+             cout<<visited<<endl;
+             sum += (a<b)?a:b;
+             continue;
+         }
+     }
+
+     cout<<endl<<"Sum = "<<sum<<endl;
+
+}
+
+// Following is the part of the program and is provided as an assistance to read the input.
+int main(){
+    int N,i,j;
+	scanf("%d",&N);
+	int **C = (int **)malloc(N * sizeof(int *));
+    for(i=0; i<N; i++)
+        C[i] = (int *)malloc(2 * sizeof(int));
+    for (i=0; i<N; i++)
+        for(j=0;j<3;j++)
+            scanf("%d",&C[i][j]);
+	solution(N,C);
+	main();
+	return 0;
+} 
